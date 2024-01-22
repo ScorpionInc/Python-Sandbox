@@ -129,6 +129,18 @@ def seek_until_count(file_handle: IO, pattern: bytes, count: int, block_size: in
 	else:
 		stream_seek(file_handle, loc)
 
+def rseek_until_count(file_handle: IO, pattern: bytes, count: int, block_size: int = DEFAULT_BUFFER_SIZE) -> None:
+        # Helper Function
+        seek_until_count(file_handle, pattern, min(count, count * -1), block_size)
+
+def seek_until(file_handle: IO, pattern: bytes, block_size: int = DEFAULT_BUFFER_SIZE) -> None:
+        # Helper Function
+        seek_until_count(file_handle, pattern, 1, block_size)
+
+def rseek_until(file_handle: IO, pattern: bytes, block_size: int = DEFAULT_BUFFER_SIZE) -> None:
+        # Helper Function
+        rseek_until_count(file_handle, pattern, -1, block_size)
+
 print("temp.py has started.") # !Debugging
 try:
 	handle = open("challenges.html", "rb+")
@@ -138,6 +150,5 @@ try:
 except IOError:
 	ex_type, ex_value, traceback = sys.exc_info()
 	print("[ERROR]: Encountered IOError: '" + str(ex_value) + "'.")  # !Debugging
-
 print("temp.py has ended.") # !Debugging
 pause()
