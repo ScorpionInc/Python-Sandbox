@@ -72,9 +72,10 @@ def stream_seek(file_handle: IO, amount: int, mode: int = 1):
 		stream_seek(file_handle, target_position, 0)
 	return file_handle.tell()
 
+DEFAULT_ENCODING: Final[str] = 'utf-8'
 DEFAULT_BUFFER_SIZE: Final[int] = 4096 # 4kb
 # Seeks forward or backward(Determined by count's sign) in stream file_handle until pattern is found count times in blocks of block_size.
-def seek_until_count_bytes(file_handle: IO, pattern: bytes, count: int, block_size: int = DEFAULT_BUFFER_SIZE) -> None:
+def seek_until_count_bytes(file_handle: IO, pattern: bytes, count: int, block_size: int = DEFAULT_BUFFER_SIZE, encoding:str = DEFAULT_ENCODING) -> None:
 	counter = count
 	isForward = True
 	if counter == 0:
@@ -102,7 +103,7 @@ def seek_until_count_bytes(file_handle: IO, pattern: bytes, count: int, block_si
 		buffer = file_handle.read(block_size)
 		if not type(buffer) is bytes:
 			# Handle Text Mode
-			buffer = buffer.decode('utf-8')#bytes(test_string, 'utf-8')
+			buffer = buffer.decode(encoding)#bytes(test_string, encoding)
 		if(not isForward):
 			stream_seek(file_handle, -next_size)
 			file_ctr -= next_size
@@ -131,17 +132,17 @@ def seek_until_count_bytes(file_handle: IO, pattern: bytes, count: int, block_si
 	else:
 		stream_seek(file_handle, loc)
 
-def rseek_until_count_bytes(file_handle: IO, pattern: bytes, count: int, block_size: int = DEFAULT_BUFFER_SIZE) -> None:
+def rseek_until_count_bytes(file_handle: IO, pattern: bytes, count: int, block_size: int = DEFAULT_BUFFER_SIZE, encoding:str = DEFAULT_ENCODING) -> None:
         # Helper Function
-        seek_until_count_bytes(file_handle, pattern, min(count, count * -1), block_size)
+        seek_until_count_bytes(file_handle, pattern, min(count, count * -1), block_size, encoding)
 
-def seek_until_bytes(file_handle: IO, pattern: bytes, block_size: int = DEFAULT_BUFFER_SIZE) -> None:
+def seek_until_bytes(file_handle: IO, pattern: bytes, block_size: int = DEFAULT_BUFFER_SIZE, encoding:str = DEFAULT_ENCODING) -> None:
         # Helper Function
-        seek_until_count_bytes(file_handle, pattern, 1, block_size)
+        seek_until_count_bytes(file_handle, pattern, 1, block_size, encoding)
 
-def rseek_until_bytes(file_handle: IO, pattern: bytes, block_size: int = DEFAULT_BUFFER_SIZE) -> None:
+def rseek_until_bytes(file_handle: IO, pattern: bytes, block_size: int = DEFAULT_BUFFER_SIZE, encoding:str = DEFAULT_ENCODING) -> None:
         # Helper Function
-        rseek_until_count_bytes(file_handle, pattern, -1, block_size)
+        rseek_until_count_bytes(file_handle, pattern, -1, block_size, encoding)
 
 print("temp.py has started.") # !Debugging
 try:
