@@ -133,16 +133,32 @@ def seek_until_count_bytes(file_handle: IO, pattern: bytes, count: int, block_si
 		stream_seek(file_handle, loc)
 
 def rseek_until_count_bytes(file_handle: IO, pattern: bytes, count: int, block_size: int = DEFAULT_BUFFER_SIZE, encoding:str = DEFAULT_ENCODING) -> None:
-        # Helper Function
-        seek_until_count_bytes(file_handle, pattern, min(count, count * -1), block_size, encoding)
+	# Helper Function
+	seek_until_count_bytes(file_handle, pattern, min(count, count * -1), block_size, encoding)
 
 def seek_until_bytes(file_handle: IO, pattern: bytes, block_size: int = DEFAULT_BUFFER_SIZE, encoding:str = DEFAULT_ENCODING) -> None:
-        # Helper Function
-        seek_until_count_bytes(file_handle, pattern, 1, block_size, encoding)
+	# Helper Function
+	seek_until_count_bytes(file_handle, pattern, 1, block_size, encoding)
 
 def rseek_until_bytes(file_handle: IO, pattern: bytes, block_size: int = DEFAULT_BUFFER_SIZE, encoding:str = DEFAULT_ENCODING) -> None:
-        # Helper Function
-        rseek_until_count_bytes(file_handle, pattern, -1, block_size, encoding)
+	# Helper Function
+	rseek_until_count_bytes(file_handle, pattern, -1, block_size, encoding)
+
+def seek_until_count_str(file_handle: IO, pattern: str, count: int, block_size: int = DEFAULT_BUFFER_SIZE, encoding:str = DEFAULT_ENCODING) -> None:
+	# Helper Function
+	seek_until_count_bytes(file_handle, pattern.decode(encoding), count, block_size, encoding)
+
+def rseek_until_count_str(file_handle: IO, pattern: str, count: int, block_size: int = DEFAULT_BUFFER_SIZE, encoding:str = DEFAULT_ENCODING) -> None:
+	# Helper Function
+	seek_until_count_str(file_handle, pattern, min(count, count * -1), block_size, encoding)
+
+def seek_until_str(file_handle: IO, pattern: str, block_size: int = DEFAULT_BUFFER_SIZE, encoding:str = DEFAULT_ENCODING) -> None:
+	# Helper Function
+	seek_until_count_str(file_handle, pattern, 1, block_size, encoding)
+
+def rseek_until_str(file_handle: IO, pattern: str, block_size: int = DEFAULT_BUFFER_SIZE, encoding:str = DEFAULT_ENCODING) -> None:
+	# Helper Function
+	rseek_until_count_str(file_handle, pattern, -1, block_size, encoding)
 
 print("temp.py has started.") # !Debugging
 try:
