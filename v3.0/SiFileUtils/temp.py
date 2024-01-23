@@ -52,8 +52,8 @@ def stream_seek(file_handle: IO, amount: int, mode: int = 1):
 		print("[ERROR]: stream_seek() called with invalid parameter value: ", mode, ".")#!Debugging
 		return
 	if(not file_handle.seekable()):
-			print("[ERROR]: stream_seek() called with unseekable stream.")#!Debugging
-			return
+		print("[ERROR]: stream_seek() called with unseekable stream.")#!Debugging
+		return
 	current_position = file_handle.tell()
 	target_position = (current_position + amount)
 	# Handle reverse seek from file start.
@@ -201,6 +201,25 @@ def rseek_until(file_handle: IO, pattern, block_size: int = DEFAULT_BUFFER_SIZE,
 		rseek_until_str(file_handle, pattern, -1, block_size, endoding)
 	else:
 		print("[ERROR]: rseek_until() Failed to find appropriate function overload for pattern type:", type(pattern)) #!Debugging
+
+# Returns bytes either forward or backward based upon amount sign.
+def read_some(file_handle: IO, amount: int) -> bytes:
+	# Python read() expects amounts to be either positive or -1.
+	if(amount < 0):
+		stream_seek(file_handle, amount)
+	data = file_handle.read(abs(amount))
+	if(amount < 0):
+                stream_seek(file_handle, amount)
+	return data
+
+# Returns some bytes from current position then returns IOPosition to where it was.
+def peek_some(file_handle: IO, amount: int) -> bytes:
+	data = file_handle.read(amount)
+	if not type(data) is bytes:
+		# Handle Text Mode
+		data = data.decode('utf-8')#bytes(test_string, 'utf-8')
+	stream_seek(file_handle, -amount)
+	return data
 
 print("temp.py has started.") # !Debugging
 try:
