@@ -43,9 +43,11 @@ def is_binary(file_handle: IO):
 # Seeks file stream file_handle by amount from mode.
 # Handles relative mode for text mode and wraps on EOF/SOF.
 # Returns new position.
-def stream_seek(file_handle: IO, amount, mode: int = 1):
+def stream_seek(file_handle: IO, amount: int, mode: int = 1):
 	# Validate Parameters
 	# 0 - Start, 1 - Relative, 2 - EOF
+	if(amount == 0):
+		return
 	if(mode < 0 or mode > 2):
 		print("[ERROR]: stream_seek() called with invalid parameter value: ", mode, ".")#!Debugging
 		return
@@ -72,7 +74,7 @@ def stream_seek(file_handle: IO, amount, mode: int = 1):
 
 DEFAULT_BUFFER_SIZE: Final[int] = 4096 # 4kb
 # Seeks forward or backward(Determined by count's sign) in stream file_handle until pattern is found count times in blocks of block_size.
-def seek_until_count(file_handle: IO, pattern: bytes, count: int, block_size: int = DEFAULT_BUFFER_SIZE) -> None:
+def seek_until_count_bytes(file_handle: IO, pattern: bytes, count: int, block_size: int = DEFAULT_BUFFER_SIZE) -> None:
 	counter = count
 	isForward = True
 	if counter == 0:
@@ -129,22 +131,22 @@ def seek_until_count(file_handle: IO, pattern: bytes, count: int, block_size: in
 	else:
 		stream_seek(file_handle, loc)
 
-def rseek_until_count(file_handle: IO, pattern: bytes, count: int, block_size: int = DEFAULT_BUFFER_SIZE) -> None:
+def rseek_until_count_bytes(file_handle: IO, pattern: bytes, count: int, block_size: int = DEFAULT_BUFFER_SIZE) -> None:
         # Helper Function
-        seek_until_count(file_handle, pattern, min(count, count * -1), block_size)
+        seek_until_count_bytes(file_handle, pattern, min(count, count * -1), block_size)
 
-def seek_until(file_handle: IO, pattern: bytes, block_size: int = DEFAULT_BUFFER_SIZE) -> None:
+def seek_until_bytes(file_handle: IO, pattern: bytes, block_size: int = DEFAULT_BUFFER_SIZE) -> None:
         # Helper Function
-        seek_until_count(file_handle, pattern, 1, block_size)
+        seek_until_count_bytes(file_handle, pattern, 1, block_size)
 
-def rseek_until(file_handle: IO, pattern: bytes, block_size: int = DEFAULT_BUFFER_SIZE) -> None:
+def rseek_until_bytes(file_handle: IO, pattern: bytes, block_size: int = DEFAULT_BUFFER_SIZE) -> None:
         # Helper Function
-        rseek_until_count(file_handle, pattern, -1, block_size)
+        rseek_until_count_bytes(file_handle, pattern, -1, block_size)
 
 print("temp.py has started.") # !Debugging
 try:
 	handle = open("challenges.html", "rb+")
-	seek_until_count(handle, b"%", 3, 12)#-3
+	seek_until_count_bytes(handle, b"%", 3, 12)#-3
 	print(handle.readline())
 	handle.close()
 except IOError:
