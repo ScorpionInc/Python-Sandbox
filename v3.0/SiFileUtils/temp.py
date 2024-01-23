@@ -160,10 +160,52 @@ def rseek_until_str(file_handle: IO, pattern: str, block_size: int = DEFAULT_BUF
 	# Helper Function
 	rseek_until_count_str(file_handle, pattern, -1, block_size, encoding)
 
+def seek_until_count(file_handle: IO, pattern, count: int, block_size: int = DEFAULT_BUFFER_SIZE, encoding:str = DEFAULT_ENCODING) -> None:
+	# Helper Function
+	if(type(pattern) is bytes):
+		seek_until_count_bytes(file_handle, pattern, count, block_size, encoding)
+	elif(type(pattern) is str):
+		seek_until_count_str(file_handle, pattern, count, block_size, endoding)
+	else:
+		print("[ERROR]: seek_until_count() Failed to find appropriate function overload for pattern type:", type(pattern)) #!Debugging
+
+def rseek_until_count(file_handle: IO, pattern, count: int, block_size: int = DEFAULT_BUFFER_SIZE, encoding:str = DEFAULT_ENCODING) -> None:
+	# Helper Function
+	# This could be implemented: seek_until_count(file_handle, pattern, min(count, count * -1), block_size, encoding)
+	# However this may cause unhelpful error message when encountering invalid pattern types.
+	if(type(pattern) is bytes):
+		rseek_until_count_bytes(file_handle, pattern, count, block_size, encoding)
+	elif(type(pattern) is str):
+		rseek_until_count_str(file_handle, pattern, count, block_size, endoding)
+	else:
+		print("[ERROR]: rseek_until_count() Failed to find appropriate function overload for pattern type:", type(pattern)) #!Debugging
+
+def seek_until(file_handle: IO, pattern, block_size: int = DEFAULT_BUFFER_SIZE, encoding:str = DEFAULT_ENCODING) -> None:
+	# Helper Function
+	# This could be implemented: seek_until_count(file_handle, pattern, 1, block_size, encoding)
+	# However this may cause unhelpful error message when encountering invalid pattern types.
+	if(type(pattern) is bytes):
+		seek_until_bytes(file_handle, pattern, 1, block_size, encoding)
+	elif(type(pattern) is str):
+		seek_until_str(file_handle, pattern, 1, block_size, endoding)
+	else:
+		print("[ERROR]: seek_until() Failed to find appropriate function overload for pattern type:", type(pattern)) #!Debugging
+
+def rseek_until(file_handle: IO, pattern, block_size: int = DEFAULT_BUFFER_SIZE, encoding:str = DEFAULT_ENCODING) -> None:
+	# Helper Function
+	# This could be implemented: rseek_until_count(file_handle, pattern, -1, block_size, encoding)
+	# However this may cause unhelpful error message when encountering invalid pattern types.
+	if(type(pattern) is bytes):
+		rseek_until_bytes(file_handle, pattern, -1, block_size, encoding)
+	elif(type(pattern) is str):
+		rseek_until_str(file_handle, pattern, -1, block_size, endoding)
+	else:
+		print("[ERROR]: rseek_until() Failed to find appropriate function overload for pattern type:", type(pattern)) #!Debugging
+
 print("temp.py has started.") # !Debugging
 try:
 	handle = open("challenges.html", "rb+")
-	seek_until_count_bytes(handle, b"%", 3, 12)#-3
+	seek_until_count(handle, b"%", 3, 12)#-3
 	print(handle.readline())
 	handle.close()
 except IOError:
