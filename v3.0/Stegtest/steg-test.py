@@ -23,6 +23,11 @@ import os
 import argparse
 import PIL.Image
 
+def PIL_Image_has_Alpha(img):
+	if(not hasattr(img, mode)):
+		return False;
+	return(img.mode.contains('A'))
+
 def handle_image_file(parser, arg):
 	if not os.path.exists(arg):
 		parser.error("The image file %s does not exist!" % arg)
@@ -43,7 +48,7 @@ def handle_target_file(parser, arg):
 parser = argparse.ArgumentParser(description='Python script for image stegenography.', epilog='~Created by: ScorpionInc')
 parser.add_argument('-i', '--imagepath', dest='imagepath', nargs=1, metavar='FILE', help='Path to image file.', type=lambda x: handle_image_file(parser, x)) # required=True,
 parser.add_argument('-s', '--secret', dest='secret', nargs=1, help='Filepath to file of data to be stored/hidden.', type=lambda x: handle_secret_file(parser, x))
-parser.add_argument('-o', '--output', dest='output', nargs=1, default="", help='Filepath to save result image to/as. (Default: <SOURCE FILE>_steg<SOURCE_EXTENSION>)', type=lambda x: handle_target_file(parser, x))
+parser.add_argument('-o', '--output', dest='output', nargs=1, default="", help='Filepath to save result image/extracted data to/as. (Default: <SOURCE FILE>_steg<.img/.bin>)', type=lambda x: handle_target_file(parser, x))
 parser.add_argument('-d', '--dataratio', dest='dataratio', nargs=1, default=0.13, help='How much data is stored per pixel as a percentage. (Default: 13%%)', type=float)
 parser.add_argument('-a', '--alphaweight', dest='alphaweight', nargs=1, default=1, help='Priority of the data being stored in the alpha channel. (Default: 1)', type=int)
 parser.add_argument('-r', '--redweight', dest='redweight', nargs=1, default=1, help='Priority of the data being stored in the red channel. (Default: 1)', type=int)
@@ -52,11 +57,22 @@ parser.add_argument('-b', '--blueweight', dest='blueweight', nargs=1, default=1,
 
 args = parser.parse_args()
 if(not hasattr(args, "imagepath")):
-	print("[ERROR] Image path is required.")
+	print("[ERROR]: Image path is required.")
 	exit(-1)
-if(not hasattr(args, "secret")):
-	print("[ERROR] Secret file is required.")
+elif(args.imagepath is None):
+	print("[ERROR]: Image path is required.")
 	exit(-2)
+if(not hasattr(args, "secret")):
+	print("[ERROR]: Secret file is required when embedding.")
+	exit(-3)
+elif(args.secret is None):
+	print("[ERROR]: Secret file is required when embedding.")
+	exit(-4)
 sourceImage = args.imagepath[0]
-if(sourceImage != None):
-	print("Image Path: " + sourceImage.filename)
+print("Image Path: " + sourceImage.filename + "\t Dimensions: " + str(sourceImage.size))
+print("Secret File Path: '" + args.secret[0] + "'.") # Debugging
+if(args.dataratio[0] <= 0.0 or args.dataratio[0] >= 1.0):
+	print("[DEBUG]: Invalid Data Retio detected. Auto selecting...")
+	pixel_count = sourceImage.size[0] * sourceImage.size[1]
+	print("[DEBUG]: Pixel Count: " + str(pixel_count) + "\t Current Image Mode: " + str(sourceImage.mode) + "\t Current Image Bands: " + str(sourceImage.getbands()) + "\t Current Image Info: " + str(sourceImage.info))
+	
