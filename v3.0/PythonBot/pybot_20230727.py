@@ -15,14 +15,17 @@ print("Script is initializing.")
 def linear_lerp(x:float) -> float:
     #Returns a "y" value between 0.0 to 1.0 given x.
     return x
+
 def parabolic_lerp(x:float) -> float:
     #Returns a "y" value between 0.0 to 1.0 given x.
     #Lower than linear values.
     return x * x
+
 def root_lerp(x:float) -> float:
     #Returns a "y" value between 0.0 to 1.0 given x.
     #Higher than linear values.
     return math.sqrt(x)
+
 def step_lerp(x:float) -> float:
     #Returns a "y" value between 0.0 to 1.0 given x.
     #Values tend toward the middle. (Stair step)
