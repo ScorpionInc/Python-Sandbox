@@ -1,0 +1,71 @@
+{% extends "skeleton.html" %}
+{% block title %}{{ super() }}Framework{% endblock %}
+{% block head %}{{ super() }}
+<style>
+	html, body {
+		height: 100%;
+	}
+	.si-page-vcontainer {
+		display: -webkit-flex;
+		display: flex;
+		flex-flow: column nowrap;
+		height: 100%;
+		justify-content: space-between;
+		align-content: space-between;
+		align-items: stretch;
+		text-align: center;
+		vertical-align: middle;
+		margin: 0 auto;
+		position: relative;
+	}
+	.si-page-hcontainer {
+		display: -webkit-flex;
+		display: flex;
+		flex-flow: row nowrap;
+		width: 100%;
+		justify-content: space-between;
+		align-items: stretch;
+		text-align: center;
+		vertical-align: middle;
+		margin: 0 auto;
+		position: relative;
+	}
+	.si-page-top-left, .si-page-bottom-left {
+		float: left;
+	}
+	.si-page-top, .si-page-bottom {
+		width: 100%;
+	}
+	.si-page-top-right, .si-page-bottom-right {
+		float: right;
+	}
+	.si-page-center {
+		width: 100%;
+		height: 100%;
+	}
+	.si-page-left {
+		height: 100%;
+		float: left;
+	}
+	.si-page-right {
+		height: 100%;
+		float: right;
+	}
+</style>{% endblock %}
+{% block body %}{{ super() }}<div class="si-page-vcontainer">
+<div class="si-page-hcontainer">
+	<div class="si-page-top-left" >{% block top_left_panel %}{% endblock %}</div>
+	<div class="si-page-top"      >{% block top_panel %}{% endblock %}</div>
+	<div class="si-page-top-right">{% block top_right_panel %}{% endblock %}</div>
+</div>
+<div class="si-page-hcontainer">
+	<div class="si-page-left"  >{% block left_panel %}{% endblock %}</div>
+	<div class="si-page-center">{% block center_panel %}{% endblock %}</div>
+	<div class="si-page-right" >{% block right_panel %}{% endblock %}</div>
+</div>
+<div class="si-page-hcontainer">
+	<div class="si-page-bottom-left" >{% block bottom_left_panel %}{% endblock %}</div>
+	<div class="si-page-bottom"      >{% block bottom_panel %}{% endblock %}</div>
+	<div class="si-page-bottom-right">{% block bottom_right_panel %}{% endblock %}</div>
+</div>
+</div>{% endblock %}
