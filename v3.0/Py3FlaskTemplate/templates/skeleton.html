@@ -1,11 +1,15 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 {% block top %}{% endblock %}
-<html lang='en'>
+<html itemtype="http://schema.org/WebPage" lang='en' xmlns="http://www.w3.org/1999/xhtml">
 <head>
-{% block head %}	<title>{% block title %}{% endblock %}</title>
-	<meta charset="UTF-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" />{% endblock %}
+{% block head -%}
+	<title>{% block title %}{% endblock %}</title>
+	<meta charset="UTF-8" /><meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=1, viewport-fit=auto" />
+	{#- Reference: https://flask.palletsprojects.com/en/stable/patterns/favicon/ #}
+	<link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" crossorigin="anonymous" />
+{%- endblock %}
 </head>
 <body>
 {% block body %}{% endblock %}

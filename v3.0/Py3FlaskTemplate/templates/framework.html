@@ -51,21 +51,43 @@
 		height: 100%;
 		float: right;
 	}
-</style>{% endblock %}
-{% block body %}{{ super() }}<div class="si-page-vcontainer">
-<div class="si-page-hcontainer">
-	<div class="si-page-top-left" >{% block top_left_panel %}{% endblock %}</div>
-	<div class="si-page-top"      >{% block top_panel %}{% endblock %}</div>
-	<div class="si-page-top-right">{% block top_right_panel %}{% endblock %}</div>
+</style>
+{%- endblock %}
+{% block body -%}
+{{ super() }}
+<div class="si-page-vcontainer">
+	<div class="si-page-hcontainer">
+		<div class="si-page-top-left" >
+			{%- block top_left_panel %}{% endblock %}
+		</div>
+		<div class="si-page-top"      >
+			{%- block top_panel %}{% endblock %}
+		</div>
+		<div class="si-page-top-right">
+			{%- block top_right_panel %}{% endblock %}
+		</div>
+	</div>
+	<div class="si-page-hcontainer">
+		<div class="si-page-left"  >
+			{%- block left_panel %}{% endblock %}
+		</div>
+		<div class="si-page-center">
+			{%- block center_panel %}{% endblock %}
+		</div>
+		<div class="si-page-right" >
+			{%- block right_panel %}{% endblock %}
+		</div>
+	</div>
+	<div class="si-page-hcontainer">
+		<div class="si-page-bottom-left" >
+			{%- block bottom_left_panel %}{% endblock %}
+		</div>
+		<div class="si-page-bottom"      >
+			{%- block bottom_panel %}{% endblock %}
+		</div>
+		<div class="si-page-bottom-right">
+			{%- block bottom_right_panel %}{% endblock %}
+		</div>
+	</div>
 </div>
-<div class="si-page-hcontainer">
-	<div class="si-page-left"  >{% block left_panel %}{% endblock %}</div>
-	<div class="si-page-center">{% block center_panel %}{% endblock %}</div>
-	<div class="si-page-right" >{% block right_panel %}{% endblock %}</div>
-</div>
-<div class="si-page-hcontainer">
-	<div class="si-page-bottom-left" >{% block bottom_left_panel %}{% endblock %}</div>
-	<div class="si-page-bottom"      >{% block bottom_panel %}{% endblock %}</div>
-	<div class="si-page-bottom-right">{% block bottom_right_panel %}{% endblock %}</div>
-</div>
-</div>{% endblock %}
+{%- endblock %}
