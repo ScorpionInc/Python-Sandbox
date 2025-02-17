@@ -12,9 +12,11 @@ IF [%progpath%] == [] GOTO MissingPythonError
 ECHO [DEBUG]: Python Program Path: %progpath%
 %progpath% --version >NUL 2>&1
 IF %ERRORLEVEL% EQU 0 (
-	ECHO [DEBUG]: Python is probably installed at path.
+	ECHO [DEBUG]: Python is probably installed at this path.
+) ELSE (
+	GOTO MissingPythonError
 )
-ECHO Setting up and activating venv.
+ECHO [DEBUG]: Setting up and activating venv.
 %progpath% -m venv .venv
 CALL .venv/Scripts/activate
 ECHO [DEBUG]: Updating/Installing Pip packages.
